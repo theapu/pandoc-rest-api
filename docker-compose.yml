@@ -1,0 +1,19 @@
+services:
+  pandoc-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: pandoc-api:latest
+    container_name: pandoc-api
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    # Optional: Mount the app.py for development so you don't have to rebuild on code changes.
+    # To use this, you would also need to change the CMD in Dockerfile to use --reload or restart the container manually.
+    # volumes:
+    #   - ./app.py:/app/app.py
+    environment:
+      # Set workers based on cores, or hardcode.
+      - GUNICORN_WORKERS=2
+      # Options: xelatex (default in Dockerfile), tectonic, pdflatex, lualatex
+      - PDF_ENGINE=tectonic
